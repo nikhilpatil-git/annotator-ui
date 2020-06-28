@@ -15,18 +15,13 @@ import {
 import React from "react";
 import { TiThMenu } from "react-icons/ti";
 
-export const NavDrawer: React.FunctionComponent = () => {
+export const NavDrawer = () => {
   const btnRef = React.createRef<HTMLButtonElement>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Box as={TiThMenu} size="32px" ref={btnRef} onClick={onOpen} />
-      <Drawer
-        finalFocusRef={btnRef}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-      >
+      <Box as={TiThMenu} size="32px" onClick={onOpen} />
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
