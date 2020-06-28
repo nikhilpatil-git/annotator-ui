@@ -1,0 +1,8 @@
+.top {
+    z-index: 2;
+    background-color: black;
+}
+
+.bottom {
+    z-index: 1;
+}
