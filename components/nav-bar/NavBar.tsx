@@ -8,6 +8,7 @@ import { NavItemsInline } from "./NavItemInline";
 
 export const NavBar = () => {
   return (
+    <Flex w="full" as="header" height="5rem">
     <Grid
       alignItems="center"
       w="100%"
@@ -33,5 +34,6 @@ export const NavBar = () => {
         <LoginStateManger />
       </SimpleGrid>
     </Grid>
+    </Flex>
   );
 };

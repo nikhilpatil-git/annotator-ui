@@ -1,5 +1,9 @@
+import { Flex } from '@chakra-ui/core';
+
 const Team = () => {
-  return <div>Teams Page</div>;
+  return <Flex w = "100%" h = "100%" >
+  Team Page
+</Flex>;
 };
 
 export default Team;

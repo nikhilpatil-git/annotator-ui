@@ -1,11 +1,11 @@
-import { Stack, Text, Link } from "@chakra-ui/core";
+import { Stack, Text, Link} from "@chakra-ui/core";
 import { NavItems, NavItem } from "../../util/Data";
 
-export const NavItemsInline = () => {
+export const NavItemsInline = () => { 
   const navItems = NavItems.map((item: NavItem, index: number) => {
     return (
       <Link key={index} href={item.link} style={{ textDecoration: "none" }}>
-        <Text fontWeight="bold" fontSize="lg">
+        <Text color="brand.900" fontWeight="bold" fontSize="lg">
           {item.text}
         </Text>
       </Link>
