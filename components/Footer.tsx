@@ -1,6 +1,9 @@
-import { Flex } from "@chakra-ui/core"
+import { Flex } from "@chakra-ui/core";
 
 export const Footer = () => {
-    return <Flex w="full" as="footer" height="5rem" bg="tomato">
+  return (
+    <Flex w="full" height="5rem" bg="tomato">
+      Footer
     </Flex>
-}
+  );
+};

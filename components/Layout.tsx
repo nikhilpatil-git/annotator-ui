@@ -1,12 +1,14 @@
-import { FunctionComponent } from 'react';
-import { Flex } from '@chakra-ui/core';
-import { NavBar } from './nav-bar/NavBar';
-import { Footer } from './Footer';
+import { FunctionComponent } from "react";
+import { Flex, SimpleGrid } from "@chakra-ui/core";
+import { NavBar } from "./nav-bar/NavBar";
+import { Footer } from "./Footer";
 
-export const Layout: FunctionComponent = ({children}) => {
-    return(<Flex direction={"column"}>
-        <NavBar />
-        {children}
-        <Footer/>
-        </Flex>);
-}
+export const Layout: FunctionComponent = ({ children }) => {
+  return (
+<SimpleGrid columns={1}>
+<NavBar />
+{children}
+<Footer />
+</SimpleGrid>
+  );
+};

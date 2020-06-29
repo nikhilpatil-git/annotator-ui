@@ -17,6 +17,8 @@ import {
 import '../styles.css'
 
 import { theme } from "@chakra-ui/core";
+import { FunctionComponent } from 'react';
+
 
 // Let's say you want to add custom colors
 const customTheme = {
@@ -41,18 +43,17 @@ const customTheme = {
   },
 };
 
+import { AppProps } from 'next/app'
 
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (<ThemeProvider theme={customTheme}>
+    <ColorModeProvider value = "dark">
+      <CSSReset />
+      <Layout>
+      <Component {...pageProps} />      
+      </Layout>
+    </ColorModeProvider>
+    </ThemeProvider>);
+}
 
-
-export default ({
-  Component,
-  pageProps
-}) => (<ThemeProvider theme={customTheme}>
-  <ColorModeProvider value = "dark">
-  <CSSReset />
-  <Layout>
-  <Component {...pageProps}/>
-  </Layout>
-  </ColorModeProvider> 
-  </ThemeProvider>
-);
+export default MyApp
