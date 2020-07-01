@@ -9,16 +9,12 @@ import Head from "next/head";
 import { Box, SimpleGrid } from "@chakra-ui/core";
 import { Layout } from "../components/Layout";
 
-import {
-  Global,
-  css
-} from "@emotion/core";
+import { Global, css } from "@emotion/core";
 
-import '../styles.css'
+import "../styles.css";
 
 import { theme } from "@chakra-ui/core";
-import { FunctionComponent } from 'react';
-
+import { FunctionComponent } from "react";
 
 // Let's say you want to add custom colors
 const customTheme = {
@@ -30,30 +26,33 @@ const customTheme = {
       800: "#153e75",
       700: "#2a69ac",
     },
-    primary:{
+    primary: {
+      lightGreen: "#4bc799",
       green: "#1EB980",
-      darkGreen: "#045D56"
+      darkGreen: "#045D56",
     },
-    secondry:{
-      orange:"#FF6859",
-      yellow:"#FFCF44",
-      purple:"#B15DFF",
-      blue:"#72DEFF"
-    }
+    secondry: {
+      orange: "#FF6859",
+      yellow: "#FFCF44",
+      purple: "#B15DFF",
+      blue: "#72DEFF",
+    },
   },
 };
 
-import { AppProps } from 'next/app'
+import { AppProps } from "next/app";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  return (<ThemeProvider theme={customTheme}>
-    <ColorModeProvider value = "dark">
-      <CSSReset />
-      <Layout>
-      <Component {...pageProps} />      
-      </Layout>
-    </ColorModeProvider>
-    </ThemeProvider>);
-}
+  return (
+    <ThemeProvider theme={customTheme}>
+      <ColorModeProvider value="dark">
+        <CSSReset />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+};
 
-export default MyApp
+export default MyApp;
