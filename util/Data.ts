@@ -15,6 +15,7 @@ export type LabMetaData = {
   description: string;
   topics: string[];
   totalMinutes: number;
+  creationDate: string;
 };
 
 export const Labs: LabMetaData[] = [
@@ -25,6 +26,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -33,6 +35,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -41,6 +44,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -49,6 +53,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -57,6 +62,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -65,6 +71,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -73,6 +80,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -81,6 +89,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -89,6 +98,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -97,6 +107,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -105,6 +116,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -113,6 +125,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
   {
     id: "1",
@@ -121,6 +134,7 @@ export const Labs: LabMetaData[] = [
     description: "In these labs we will study about python programming",
     topics: ["Numpy", "Pandas", "MatplotLib"],
     totalMinutes: 30,
+    creationDate: "1593695792",
   },
 ];
 
