@@ -12,7 +12,7 @@ export const NavBar = () => {
       <Grid
         alignItems="center"
         w="100%"
-        templateColumns="repeat(3, 1fr)"
+        templateColumns="1fr auto 1fr"
         gridGap={20}
       >
         <SimpleGrid
@@ -30,7 +30,7 @@ export const NavBar = () => {
         >
           <NavItemsInline />
         </SimpleGrid>
-        <SimpleGrid justifyContent="center">
+        <SimpleGrid pr={4} justifyContent="center">
           <LoginStateManger />
         </SimpleGrid>
       </Grid>

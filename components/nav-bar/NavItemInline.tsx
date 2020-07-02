@@ -1,21 +1,27 @@
-import { Stack, Text, Link } from "@chakra-ui/core";
+import { Stack, Text, Grid, Link as CLink } from "@chakra-ui/core";
+import Link from "next/link";
 import { NavItems, NavItem } from "../../util/Data";
+import { CustomLink } from "../../util/Link";
 
 export const NavItemsInline = () => {
   const navItems = NavItems.map((item: NavItem, index: number) => {
     return (
-      <Link key={index} href={item.link} style={{ textDecoration: "none" }}>
-        <Text color="white" fontWeight="bold" fontSize="lg">
+      <CustomLink key={index} url={item.link}>
+        <Text color="white" fontWeight="bold" fontSize="md">
           {item.text}
         </Text>
-      </Link>
+      </CustomLink>
     );
   });
   return (
     <>
-      <Stack isInline spacing={8}>
+      <Grid
+        columnGap="2rem"
+        justifyItems="center"
+        gridTemplateColumns={"auto repeat(3, 70px)"}
+      >
         {navItems}
-      </Stack>
+      </Grid>
     </>
   );
 };
