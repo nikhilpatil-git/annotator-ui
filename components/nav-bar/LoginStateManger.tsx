@@ -14,7 +14,6 @@ import { useReducer, useEffect, Reducer } from "react";
 import { AuthReducer } from "../../application/auth/AuthReducer";
 import { FirebaseClient } from "../../infrastructure/core/FirebaseClient";
 import { FirebaseAuthFacade } from "../../infrastructure/auth/firebaseAuthFacade";
-import { title } from "process";
 
 export const AuthStateContext: Context<AuthState> = createContext(
   InitialAuthState

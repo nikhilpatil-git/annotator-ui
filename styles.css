@@ -6,8 +6,7 @@ a:hover {
     text-decoration: none;
 }
 
-.anc {
-    a:hover {
-        text-decoration: none;
-    }
+::selection {
+    background: rgba(255, 225, 132, 0.9);
+    text-shadow: none;
 }

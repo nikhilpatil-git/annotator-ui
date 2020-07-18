@@ -140,19 +140,16 @@ export const Labs: LabMetaData[] = [
 
 export const NavItems: NavItem[] = [
   {
-    text: "What is MLStudy.Com?",
+    text: "Dashboard",
     link: "/",
   },
   {
-    text: "Labs",
+    text: "Report Bugs",
     link: "/labs",
   },
-  {
-    text: "Team",
-    link: "/team",
-  },
-  {
-    text: "Pricing",
-    link: "/pricing",
-  },
 ];
+
+export const pos: string[] = [""];
+export const ner: string[] = [];
+export const sentm: string[] = [];
+export const cat: string[] = [];

@@ -1,4 +1,3 @@
-import { Option } from "fp-ts/lib/Option";
 import { Either } from "fp-ts/lib/Either";
 import { AuthFailure } from "./authFailure";
 import { Unit } from "../core/unit";

@@ -27,14 +27,14 @@ const customTheme = {
       700: "#2a69ac",
     },
     primary: {
-      lightGreen: "#4bc799",
+      lightGreen: "#20c589",
       green: "#1EB980",
       darkGreen: "#045D56",
     },
     secondry: {
       orange: "#FF6859",
       yellow: "#FFCF44",
-      purple: "#B15DFF",
+      purple: "#583fcf", //
       blue: "#72DEFF",
     },
   },

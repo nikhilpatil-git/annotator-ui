@@ -1,9 +1,4 @@
-import {
-  Grid,
-  Tabs,
-  TabList,
-  Tab,
-} from "@chakra-ui/core";
+import { Grid, Tabs, TabList, Tab } from "@chakra-ui/core";
 import { FilterBySelect } from "./FilterBySelect";
 
 export const FilterByTabs = () => {
@@ -46,7 +41,7 @@ export const LabFilters = () => {
       p={5}
       gridTemplateColumns="repeat(3, 1fr)"
     >
-      <FilterByTabs /
+      <FilterByTabs />
       <FilterBySelect />
       <FilterBySelect />
     </Grid>

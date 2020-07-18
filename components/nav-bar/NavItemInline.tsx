@@ -18,7 +18,7 @@ export const NavItemsInline = () => {
       <Grid
         columnGap="2rem"
         justifyItems="center"
-        gridTemplateColumns={"auto repeat(3, 70px)"}
+        gridTemplateColumns={"auto repeat(3, 100px)"}
       >
         {navItems}
       </Grid>

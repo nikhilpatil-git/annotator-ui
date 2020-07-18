@@ -5,10 +5,9 @@ import { Footer } from "./Footer";
 
 export const Layout: FunctionComponent = ({ children }) => {
   return (
-<SimpleGrid columns={1}>
-<NavBar />
-{children}
-<Footer />
-</SimpleGrid>
+    <SimpleGrid columns={1}>
+      <NavBar />
+      {children}
+    </SimpleGrid>
   );
 };

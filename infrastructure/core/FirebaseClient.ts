@@ -1,23 +1,26 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
 import AuthType from "../../util/Constants";
 
 export class FirebaseClient {
   private firebaseAuth: firebase.auth.Auth;
+  public firestore: firebase.firestore.Firestore;
   constructor() {
     if (!firebase.apps.length) {
       firebase.initializeApp({
-        apiKey: "AIzaSyAMWO0X0xlpbTSSI4OgZpfyKMAO8k8B6n8",
-        authDomain: "ml-study-254810.firebaseapp.com",
-        databaseURL: "https://ml-study-254810.firebaseio.com",
-        projectId: "ml-study-254810",
-        storageBucket: "ml-study-254810.appspot.com",
-        messagingSenderId: "344727602806",
-        appId: "1:344727602806:web:d3b46b0b3fe9ea10664157",
-        measurementId: "G-SKF5LXZXBM",
+        apiKey: "AIzaSyADVr4DcwbHRI2_K2sdS4jwJxlVJ75-26g",
+        authDomain: "hind-e405e.firebaseapp.com",
+        databaseURL: "https://hind-e405e.firebaseio.com",
+        projectId: "hind-e405e",
+        storageBucket: "hind-e405e.appspot.com",
+        messagingSenderId: "947957687836",
+        appId: "1:947957687836:web:cf1247f810a3febf3461d9",
+        measurementId: "G-LNS4Q0KYLV",
       });
     }
     this.firebaseAuth = firebase.auth();
+    this.firestore = firebase.firestore();
   }
 
   getAuthHandler(authType: AuthType): Promise<firebase.auth.UserCredential> {

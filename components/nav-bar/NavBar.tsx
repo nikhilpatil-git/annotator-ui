@@ -1,4 +1,4 @@
-import { SimpleGrid, Flex, Button, Grid } from "@chakra-ui/core";
+import { SimpleGrid, Flex, Button, Grid, Text } from "@chakra-ui/core";
 import { LogoBox } from "./LogoBox";
 import { LoginModal } from "./LoginModal";
 import { AccountManger } from "./AccountManager";
@@ -8,7 +8,7 @@ import { NavItemsInline } from "./NavItemInline";
 
 export const NavBar = () => {
   return (
-    <Flex w="full" as="header" height="5rem">
+    <Flex as="header" height="5rem" bg="#303a4e" m={2}>
       <Grid
         alignItems="center"
         w="100%"
@@ -21,8 +21,15 @@ export const NavBar = () => {
         >
           <NavDrawer />
         </SimpleGrid>
-        <SimpleGrid justifyContent="end">
-          <LogoBox />
+        <SimpleGrid justifyContent="start">
+          <Text
+            textAlign="center"
+            fontWeight="bold"
+            fontSize={["sm", "sm", "2xl", "4xl"]}
+            p={2}
+          >
+            DATA ANNOTATOR
+          </Text>
         </SimpleGrid>
         <SimpleGrid
           display={["none", "none", "block", "block"]}

@@ -34,6 +34,9 @@ import { AuthFailure } from "../../domain/auth/authFailure";
 export const LoginModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const primaryColor = "primary.green";
+  const primaryLightColor = "primary.lightGreen";
+
   const state: AuthState = useContext(AuthStateContext);
   const dispatch: React.Dispatch<AuthAction> = useContext(AuthReducerContext);
 
@@ -52,7 +55,18 @@ export const LoginModal = () => {
         fontSize={["xs", "lg", "lg", "lg"]}
         size="xs"
         p={[2, 4, 4, 5]}
-        variantColor="teal"
+        _hover={{ bg: primaryLightColor }}
+        backgroundColor={primaryColor}
+        _active={{
+          bg: primaryLightColor,
+          transform: "scale(0.98)",
+          borderColor: "#bec3c9",
+        }}
+        _focus={{
+          outline: 0,
+        }}
+        outline={0}
+        variant="solid"
       >
         Login
       </Button>
@@ -68,7 +82,7 @@ export const LoginModal = () => {
           bg="white"
           borderRadius={8}
           borderTopWidth={5}
-          borderTopColor="tomato"
+          borderTopColor="primary.green"
           pb={5}
         >
           <ModalHeader>
