@@ -24,15 +24,7 @@ export const FilterBySelect: React.FunctionComponent = () => {
   };
   return (
     <Menu>
-      <MenuButton
-        as={Button}
-        _focus={{
-          outline: 0,
-        }}
-        rightIcon="chevron-down"
-        w="200px"
-        justifyContent="space-between"
-      >
+      <MenuButton as={Button} w="200px">
         {filter}
       </MenuButton>
       <MenuList>{categories}</MenuList>
