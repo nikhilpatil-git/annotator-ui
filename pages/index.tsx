@@ -40,10 +40,10 @@ export default function Home() {
         3
       );
 
-      const finalResult = result.map((doc) => DocumentDataToTrainingData(doc));
+      //const finalResult = result.map((doc) => DocumentDataToTrainingData(doc));
 
       // const result = await firebasePipelineFacade.getPipelines();
-      console.log(finalResult);
+      //console.log(finalResult);
     })();
   }, []);
 

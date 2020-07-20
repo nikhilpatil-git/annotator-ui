@@ -4,6 +4,7 @@ export const FirebaseUserToDomain = (firebaseUser: firebase.User): User => {
   return new User(
     firebaseUser.uid,
     firebaseUser.displayName,
-    firebaseUser.email
+    firebaseUser.email,
+    firebaseUser.photoURL
   );
 };

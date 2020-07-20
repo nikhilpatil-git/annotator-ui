@@ -10,12 +10,34 @@ export const AccountManger = () => {
   const state: AuthState = useContext(AuthStateContext);
   const dispatch: React.Dispatch<AuthAction> = useContext(AuthReducerContext);
 
+  const formatUserName = (): string => {
+    let name: string = "Guest";
+    if (state.currentUser && state.currentUser.name) {
+      let tempName = state.currentUser.name.trim();
+      if (tempName.includes(" ")) {
+        tempName = tempName.split(" ")[0];
+      }
+      name = tempName.substring(0, Math.min(tempName.length, 6)).concat("..");
+    }
+    return name;
+  };
+
+  const formatProfilePic = (): string => {
+    let profilePic: string = "/images/default_icon.png";
+    if (state.currentUser && state.currentUser.photoUrl) {
+      profilePic = state.currentUser.photoUrl;
+    }
+    return profilePic;
+  };
+
   const [isOpen, setIsOpen] = React.useState(false);
   const open = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
 
   useEffect(() => {
-    console.log(state);
+    if (state.currentUser) {
+      console.log(state.currentUser);
+    }
   });
 
   const handleSignOut = async () => {
@@ -41,7 +63,7 @@ export const AccountManger = () => {
         gap={2}
       >
         <Box as={Link} onClick={open} p={1} size="40px">
-          <Image rounded="full" src="https://bit.ly/sage-adebayo" />
+          <Image rounded="full" src={formatProfilePic()} />
         </Box>
         <Text
           as={Link}
@@ -52,7 +74,7 @@ export const AccountManger = () => {
           fontSize="lg"
           display={["none", "none", "block", "block"]}
         >
-          {state.currentUser?.name}
+          {formatUserName()}
         </Text>
         <Link onClick={open}>
           <Icon name="chevron-down" size="40px" />
