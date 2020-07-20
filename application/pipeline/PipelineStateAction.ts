@@ -3,7 +3,7 @@ import { PipelineFailure } from "../../domain/pipeline/PipelineFailure";
 import { Pipeline } from "../../domain/pipeline/Pipeline";
 
 export type PipelineState = {
-  pipeline?: Pipeline;
+  pipelines?: Pipeline[];
   pipelineFailureOrSuccessOption?: PipelineFailure<Error>;
 };
 

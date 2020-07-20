@@ -34,7 +34,8 @@ const customTheme = {
     secondry: {
       orange: "#FF6859",
       yellow: "#FFCF44",
-      purple: "#583fcf", //
+      purple: "#583fcf",
+      purpleLight: "#5f47d1",
       blue: "#72DEFF",
     },
   },

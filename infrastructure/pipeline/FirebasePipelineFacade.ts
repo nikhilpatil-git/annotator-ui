@@ -12,8 +12,8 @@ import { DocumentDataToPipeline } from "./PipelineMapper";
 export class FirebasePipelineFacade implements IPipelineFacade {
   private firebaseDocHandler: FirebaseDocHandler;
 
-  constructor(firebaseDocHandler: FirebaseDocHandler) {
-    this.firebaseDocHandler = firebaseDocHandler;
+  constructor() {
+    this.firebaseDocHandler = new FirebaseDocHandler();
   }
 
   async getPipelines(): Promise<Either<PipelineFailure<Error>, Pipeline[]>> {

@@ -3,7 +3,7 @@ import { AccountManger } from "./AccountManager";
 import { LoginModal } from "./LoginModal";
 import { useToast } from "@chakra-ui/core";
 
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 import {
   InitialAuthState,
   AuthState,
