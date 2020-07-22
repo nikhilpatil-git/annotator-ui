@@ -15,35 +15,34 @@ export const PipelineValues = () => {
     PipelineReducerContext
   );
 
-  const pipelineValuesList = state.pipelines?.map(
-    (item: Pipeline, index: number) => {
-      if (item.name === "NER") {
-        const mapValues = item.values;
-        return Array.from(mapValues)
-          .map(([key, value]) => key)
-          .map((item: string, index: number) => {
-            let titleValue = mapValues.get(item);
-            return (
-              <CustomButton
-                key={index}
-                colorLight="secondry.purpleLight"
-                color="secondry.purple"
-                isSolid={true}
-                title={titleValue}
-              >
-                {item}
-              </CustomButton>
-            );
-          });
-      }
+  const pipelineValuesList = state.pipelines?.map((item: Pipeline) => {
+    if (item.name === state.selectedPipeline) {
+      const mapValues = item.values;
+      return Array.from(mapValues)
+        .map(([key]) => key)
+        .map((item: string, index: number) => {
+          let titleValue = mapValues.get(item);
+          return (
+            <CustomButton
+              key={index}
+              colorLight="secondry.purpleLight"
+              color="secondry.purple"
+              isSolid={true}
+              title={titleValue}
+            >
+              {item}
+            </CustomButton>
+          );
+        });
     }
-  );
+  });
 
   return (
     <SimpleGrid
       gridColumnGap={2}
       gridRowGap={1}
-      gridTemplateColumns={"repeat(auto-fit, minmax(20px, 80px))"}
+      gridTemplateColumns={"repeat(auto-fit, 100px)"}
+      gridTemplateRows={"40px"}
       bg="secondry.purple"
       p={3}
     >

@@ -4,6 +4,8 @@ import { Reducer } from "react";
 import { PipelineFailure } from "../../domain/pipeline/PipelineFailure";
 import { Pipeline } from "../../domain/pipeline/Pipeline";
 import { pipe } from "fp-ts/lib/function";
+import { TrainingDataFailure } from "../../domain/training_data/TrainingDataFailure";
+import { TrainingData } from "../../domain/training_data/TrainingData";
 
 export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
   pipelineState: PipelineState,
@@ -26,6 +28,33 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
         );
       }
       return newState;
+    case "UpdateTrainingDataFromCache":
+      if (pipelineAction.result) {
+        pipe(
+          pipelineAction.result,
+          fold(
+            (error: TrainingDataFailure<Error>) => {
+              newState.trainingDataFaiureOrSuccessOption = error;
+            },
+            (trainingData: TrainingData[]) => {
+              newState.trainingData = trainingData;
+              const pointer = localStorage.getItem("dataPointer");
+              if (pointer) {
+                newState.trainingDataPointer = parseInt(pointer);
+              }
+            }
+          )
+        );
+      }
+      return newState;
+    case "TrainingDataPointer":
+      newState.trainingDataPointer = pipelineAction.result;
+      return newState;
+    case "SelectPipeline":
+      return {
+        ...pipelineState,
+        selectedPipeline: pipelineAction.result,
+      };
     default:
       throw new Error("Pipeline Action not found");
   }

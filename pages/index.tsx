@@ -23,6 +23,14 @@ import { AuthReducer } from "../application/auth/AuthReducer";
 import { InitialAuthState } from "../application/auth/AuthStateAction";
 import { PipelineReducer } from "../application/pipeline/PipelineReducer";
 import { PipelineValues } from "../components/home/PipelineValues";
+import { FirebaseTrainingDataFacade } from "../infrastructure/training_data/FirebaseTrainingDataFacade";
+import { pipe } from "fp-ts/lib/function";
+import { fold } from "fp-ts/lib/Either";
+import { PipelineFailure } from "../domain/pipeline/PipelineFailure";
+import { Pipeline } from "../domain/pipeline/Pipeline";
+import { TrainingDataFailure } from "../domain/training_data/TrainingDataFailure";
+import { TrainingData } from "../domain/training_data/TrainingData";
+import { TrainingDataOrFailure } from "../domain/core/types";
 
 export const PipelineStateContext: Context<PipelineState> = createContext(
   InitialPipelineState
@@ -53,20 +61,39 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      const firebasePipelineFacade = new FirebasePipelineFacade();
-
-      // const result = await firebaseDocHandler.getCollectionWithQueryLimit(
-      //   "data/twitter/tweets",
-      //   JSON.stringify({ key: "state", operater: "==", value: "not-updated" }),
-      //   3
-      // );
-
-      //const finalResult = result.map((doc) => DocumentDataToTrainingData(doc));
-
-      // const result = await firebasePipelineFacade.getPipelines();
-      //console.log(finalResult);
+      const firebaseTrainingDataFacade = new FirebaseTrainingDataFacade();
+      await firebaseTrainingDataFacade
+        .getULabelledDataFromCache()
+        .then((trainingData: TrainingDataOrFailure) => {
+          dispatch({
+            type: "UpdateTrainingDataFromCache",
+            result: trainingData,
+          });
+        })
+        .catch((error: TrainingDataOrFailure) =>
+          dispatch({ type: "UpdateTrainingDataFromCache", result: error })
+        );
     })();
   }, []);
+
+  useEffect(() => {
+    if (state.trainingDataFaiureOrSuccessOption) {
+      (async () => {
+        const firebaseTrainingDataFacade = new FirebaseTrainingDataFacade();
+        const successOrFailure = await firebaseTrainingDataFacade.getULabelledData();
+        dispatch({
+          type: "UpdateTrainingDataFromCache",
+          result: successOrFailure,
+        });
+      })();
+    }
+  }, [state.trainingDataFaiureOrSuccessOption]);
+
+  useEffect(() => {
+    if (state) {
+      console.log(state);
+    }
+  });
 
   return (
     <PipelineReducerContext.Provider value={dispatch}>

@@ -14,13 +14,24 @@ interface IPipelineItemProps {
   showIcon: boolean;
 }
 const PipelineItem: React.FC<IPipelineItemProps> = ({ ...props }) => {
+  const dispatch: React.Dispatch<PipelineAction> = useContext(
+    PipelineReducerContext
+  );
+
   return (
     <SimpleGrid
       gridTemplateColumns="100px 48px"
       alignItems="center"
       justifyItems="center"
     >
-      <Button w={"100%"} variantColor="gray" variant="solid">
+      <Button
+        onClick={() => {
+          dispatch({ type: "SelectPipeline", result: props.pipeline.name });
+        }}
+        w={"100%"}
+        variantColor="gray"
+        variant="solid"
+      >
         {props.pipeline.name}
       </Button>
       <Icon hidden={!props.showIcon} name="chevron-right" size="48px" />
@@ -44,7 +55,6 @@ export const Pipelines = () => {
 
   const pipelinesList = state.pipelines?.map(
     (item: Pipeline, index: number) => {
-      console.log(item);
       let pipelineSize = 0;
       if (state.pipelines) {
         pipelineSize = state.pipelines.length - 1;

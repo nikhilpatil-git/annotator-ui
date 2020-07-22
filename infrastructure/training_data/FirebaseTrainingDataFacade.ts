@@ -1,15 +1,37 @@
 import { ITrainingDataFacade } from "../../domain/training_data/ITrainingDataFacade";
-import { TrainingDataPromise } from "../../domain/core/types";
+import {
+  TrainingDataPromise,
+  TrainingDataOrFailure,
+} from "../../domain/core/types";
 import { FirebaseDocHandler } from "../core/FirebaseDocHandler";
 import { firestore } from "firebase";
 import { DocumentDataToTrainingData } from "./TrainingDataMapper";
-import { right, left } from "fp-ts/lib/Either";
-import { ULabelledDataNotFound } from "../../domain/training_data/TrainingDataFailure";
+import { right, left, Either } from "fp-ts/lib/Either";
+import {
+  ULabelledDataNotFound,
+  TrainingDataFailure,
+  ULabelledDataFromCatcheNotFound,
+} from "../../domain/training_data/TrainingDataFailure";
+import { TrainingData } from "../../domain/training_data/TrainingData";
+import { rejects } from "assert";
 
 export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
   private firebaseDocHandler: FirebaseDocHandler;
   constructor() {
     this.firebaseDocHandler = new FirebaseDocHandler();
+  }
+  getULabelledDataFromCache(): TrainingDataPromise {
+    return new Promise<TrainingDataOrFailure>((resolve, reject) => {
+      if (typeof Storage !== "undefined") {
+        const cacheData = localStorage.getItem("data");
+        if (cacheData !== null) {
+          const trainingDataPipeline: TrainingData[] = [];
+          Object.assign(trainingDataPipeline, JSON.parse(cacheData));
+          resolve(right(trainingDataPipeline));
+        }
+        reject(left(ULabelledDataFromCatcheNotFound.instance()));
+      }
+    });
   }
 
   async getULabelledData(): TrainingDataPromise {
@@ -24,6 +46,22 @@ export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
           }),
           10
         )
+        .then((result: firestore.DocumentData[]) => {
+          if (typeof Storage !== "undefined") {
+            const trainingData = result.map((doc) =>
+              DocumentDataToTrainingData(doc)
+            );
+            localStorage.setItem("data", JSON.stringify(trainingData));
+            localStorage.setItem("dataPointer", "0");
+            const cacheData = localStorage.getItem("data");
+            if (cacheData !== null) {
+              const trainingDataPipeline: TrainingData[] = [];
+              Object.assign(trainingDataPipeline, JSON.parse(cacheData));
+              console.log(trainingDataPipeline);
+            }
+          }
+          return result;
+        })
         .then((result: firestore.DocumentData[]) =>
           right(result.map((doc) => DocumentDataToTrainingData(doc)))
         );

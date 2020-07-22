@@ -15,3 +15,8 @@ export type FailureOrPipeline = Either<AuthFailure<Error>, Pipeline[]>;
 export type TrainingDataPromise = Promise<
   Either<TrainingDataFailure<Error>, TrainingData[]>
 >;
+
+export type TrainingDataOrFailure = Either<
+  TrainingDataFailure<Error>,
+  TrainingData[]
+>;
