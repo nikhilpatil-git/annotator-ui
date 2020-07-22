@@ -91,7 +91,7 @@ export default function Home() {
 
   useEffect(() => {
     if (state) {
-      console.log(state);
+      // console.log(state);
     }
   });
 

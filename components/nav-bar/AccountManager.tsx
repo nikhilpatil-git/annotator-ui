@@ -34,12 +34,6 @@ export const AccountManger = () => {
   const open = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
 
-  useEffect(() => {
-    if (state.currentUser) {
-      console.log(state.currentUser);
-    }
-  });
-
   const handleSignOut = async () => {
     const firebaseClient = new FirebaseClient();
     const firebaseAuthFacade = new FirebaseAuthFacade(firebaseClient);
