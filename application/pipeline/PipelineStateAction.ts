@@ -12,6 +12,7 @@ export type PipelineState = {
   trainingData?: TrainingData[];
   trainingDataPointer?: number;
   selectedPipeline?: string;
+  selectedPipelineValue?: string;
   pipelineFailureOrSuccessOption?: PipelineFailure<Error>;
   trainingDataFaiureOrSuccessOption?: TrainingDataFailure<Error>;
 };
@@ -25,6 +26,10 @@ export type PipelineAction =
     }
   | {
       type: "SelectPipeline";
+      result: string;
+    }
+  | {
+      type: "SelectPipelineValue";
       result: string;
     }
   | {

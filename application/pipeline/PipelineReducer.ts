@@ -55,6 +55,12 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
       return {
         ...pipelineState,
         selectedPipeline: pipelineAction.result,
+        selectedPipelineValue: null,
+      };
+    case "SelectPipelineValue":
+      return {
+        ...pipelineState,
+        selectedPipelineValue: pipelineAction.result,
       };
     default:
       throw new Error("Pipeline Action not found");

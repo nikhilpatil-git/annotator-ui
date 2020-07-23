@@ -5,6 +5,7 @@ interface IProps {
   color: string;
   colorLight?: string;
   title?: string;
+  onClickCallback: () => void;
 }
 
 export const CustomButton: React.FunctionComponent<IProps> = ({
@@ -34,6 +35,7 @@ export const CustomButton: React.FunctionComponent<IProps> = ({
         color={props.isSolid ? "white" : props.color}
         border="1px"
         borderColor="white"
+        onClick={() => props.onClickCallback()}
       >
         {children}
       </Button>

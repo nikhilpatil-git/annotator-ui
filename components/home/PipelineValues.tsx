@@ -27,8 +27,11 @@ export const PipelineValues = () => {
               key={index}
               colorLight="secondry.purpleLight"
               color="secondry.purple"
-              isSolid={true}
+              isSolid={state.selectedPipelineValue == item ? false : true}
               title={titleValue}
+              onClickCallback={() =>
+                dispatch({ type: "SelectPipelineValue", result: item })
+              }
             >
               {item}
             </CustomButton>

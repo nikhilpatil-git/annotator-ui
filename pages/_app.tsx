@@ -37,6 +37,8 @@ const customTheme = {
       purple: "#583fcf",
       purpleLight: "#5f47d1",
       blue: "#72DEFF",
+      gray: "#8c8c8c",
+      grayLight: "#a7a5a6",
     },
   },
 };

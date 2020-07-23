@@ -8,12 +8,14 @@ import { PipelineStateContext, PipelineReducerContext } from "../../pages";
 import { FirebasePipelineFacade } from "../../infrastructure/pipeline/FirebasePipelineFacade";
 import { Pipeline } from "../../domain/pipeline/Pipeline";
 import { stat } from "fs/promises";
+import { CustomButton } from "../../util/CustomButton";
 
 interface IPipelineItemProps {
   pipeline: Pipeline;
   showIcon: boolean;
 }
 const PipelineItem: React.FC<IPipelineItemProps> = ({ ...props }) => {
+  const state: PipelineState = useContext(PipelineStateContext);
   const dispatch: React.Dispatch<PipelineAction> = useContext(
     PipelineReducerContext
   );
@@ -24,16 +26,17 @@ const PipelineItem: React.FC<IPipelineItemProps> = ({ ...props }) => {
       alignItems="center"
       justifyItems="center"
     >
-      <Button
-        onClick={() => {
-          dispatch({ type: "SelectPipeline", result: props.pipeline.name });
-        }}
-        w={"100%"}
-        variantColor="gray"
-        variant="solid"
+      <CustomButton
+        colorLight="secondry.grayLight"
+        color="secondry.gray"
+        isSolid={state.selectedPipeline == props.pipeline.name ? false : true}
+        onClickCallback={() =>
+          dispatch({ type: "SelectPipeline", result: props.pipeline.name })
+        }
       >
         {props.pipeline.name}
-      </Button>
+      </CustomButton>
+
       <Icon hidden={!props.showIcon} name="chevron-right" size="48px" />
     </SimpleGrid>
   );
@@ -85,3 +88,17 @@ export const Pipelines = () => {
     </SimpleGrid>
   );
 };
+
+/*
+      <Button
+        onClick={() => {
+          dispatch({ type: "SelectPipeline", result: props.pipeline.name });
+        }}
+        w={"100%"}
+        variantColor="gray"
+        variant="solid"
+      >
+        {props.pipeline.name}
+      </Button>;
+
+*/

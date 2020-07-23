@@ -32,20 +32,20 @@ export const Sentence = () => {
   );
   const [tokenList, setTokenList] = useState<Tokens[]>([]);
 
-  const words: string[] = "The first argument specifies the number of repetitions. The second argument is a track list, which is repeated that number of times.".split(
-    " "
-  );
-
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [selectedIndex, setSelectedIndex] = useState([-1]);
 
   const handleFocus = (index: number) => {
-    // event.preventDefault();
-    console.log("selected " + index);
-    setSelectedIndex(() => index);
+    if (!selectedIndex.includes(index)) {
+      if (state.selectedPipelineValue) {
+        let tokens: Tokens[] = tokenList;
+        tokens[index].ner = state.selectedPipelineValue;
+        setTokenList(tokens);
+      }
+      setSelectedIndex([...selectedIndex, index]);
+    }
   };
 
   useEffect(() => {
-    console.log("remove all ranges");
     var s = window.getSelection();
     if (s) {
       s.removeAllRanges();
@@ -64,42 +64,50 @@ export const Sentence = () => {
     }
   }, [state.trainingData]);
 
+  const changeNerState = (index: number) => {
+    let tokens: Tokens[] = tokenList;
+    tokens[index].ner = "";
+    setTokenList(tokens);
+    setSelectedIndex([...selectedIndex, index]);
+    console.log(tokenList);
+  };
+
   const wordsList = tokenList.map((item: Tokens, index: number) => {
     return (
-      <Text
-        bg={selectedIndex == index ? "rgba(255,225,132,1.0)" : "white"}
+      <Flex
+        bg={item.ner.length > 1 ? "rgba(255,225,132,1.0)" : "white"}
         p={1}
         key={index}
         fontSize="lg"
+        align="center"
+        justify="center"
+        direction={"row"}
+        wrap={"wrap"}
+        onMouseUp={() => handleFocus(index)}
       >
-        <Flex
-          align="center"
-          justify="center"
-          direction={"row"}
-          wrap={"wrap"}
-          onMouseUp={() => handleFocus(index)}
-        >
-          {item.orth}
-          {selectedIndex == index && (
-            <Tag
-              fontWeight={"bold"}
-              size={"md"}
-              key={"sm"}
-              color="primary.green"
-              bg={"rgba(255,225,132,1.0)"}
-            >
-              <TagLabel>{item.ner}</TagLabel>
-              <TagCloseButton
-                _focus={{
-                  outline: 0,
-                }}
-                outline={0}
-                onClick={() => setSelectedIndex(() => -1)}
-              />
-            </Tag>
-          )}
-        </Flex>
-      </Text>
+        {item.orth}
+        {item.ner.length > 1 && (
+          <Tag
+            fontWeight={"bold"}
+            size={"md"}
+            key={"sm"}
+            color="secondry.purple"
+            bg={"rgba(255,225,132,1.0)"}
+          >
+            <TagLabel>{item.ner}</TagLabel>
+            <TagCloseButton
+              _focus={{
+                outline: 0,
+              }}
+              outline={0}
+              onClick={() => {
+                console.log("close text");
+                changeNerState(index);
+              }}
+            />
+          </Tag>
+        )}
+      </Flex>
     );
   });
 
