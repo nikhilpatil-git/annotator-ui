@@ -101,8 +101,8 @@ export const LoginModal = () => {
               >
                 <LoginWithGoogle />
               </Link>
-              <LoginWithFacebook />
-              <LoginWithGithub />
+              {/* <LoginWithFacebook />
+              <LoginWithGithub /> */}
             </Grid>
           </ModalBody>
         </ModalContent>

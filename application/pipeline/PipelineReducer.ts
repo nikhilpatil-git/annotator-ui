@@ -55,7 +55,7 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
       return {
         ...pipelineState,
         selectedPipeline: pipelineAction.result,
-        selectedPipelineValue: null,
+        selectedPipelineValue: "",
       };
     case "SelectPipelineValue":
       return {
