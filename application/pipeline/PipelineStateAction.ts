@@ -37,6 +37,10 @@ export type PipelineAction =
       result: TrainingDataOrFailure;
     }
   | {
+      type: "UpdateTrainingData";
+      result: TrainingData[];
+    }
+  | {
       type: "TrainingDataPointer";
       result: number;
     };

@@ -4,7 +4,7 @@ import {
   PipelineState,
   PipelineAction,
 } from "../../application/pipeline/PipelineStateAction";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { PipelineStateContext, PipelineReducerContext } from "../../pages";
 import { stat } from "fs/promises";
 import { Pipeline } from "../../domain/pipeline/Pipeline";
@@ -14,6 +14,23 @@ export const PipelineValues = () => {
   const dispatch: React.Dispatch<PipelineAction> = useContext(
     PipelineReducerContext
   );
+
+  useEffect(() => {
+    if (!state.selectedPipelineValue && state.selectedPipeline) {
+      state.pipelines?.map((item: Pipeline) => {
+        if (item.name === state.selectedPipeline) {
+          const mapValues = item.values;
+          const defaultPipelineValue = Array.from(mapValues).map(
+            ([key]) => key
+          )[0];
+          dispatch({
+            type: "SelectPipelineValue",
+            result: defaultPipelineValue,
+          });
+        }
+      });
+    }
+  }, [state.selectedPipeline]);
 
   const pipelineValuesList = state.pipelines?.map((item: Pipeline) => {
     if (item.name === state.selectedPipeline) {

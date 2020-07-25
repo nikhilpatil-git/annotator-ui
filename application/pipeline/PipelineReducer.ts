@@ -48,6 +48,12 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
         );
       }
       return newState;
+    case "UpdateTrainingData":
+      if (pipelineAction.result) {
+        newState.trainingData = pipelineAction.result;
+        localStorage.setItem("data", JSON.stringify(pipelineAction.result));
+      }
+      return newState;
     case "TrainingDataPointer":
       newState.trainingDataPointer = pipelineAction.result;
       return newState;
