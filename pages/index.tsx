@@ -1,5 +1,13 @@
 import Head from "next/head";
-import { Box, SimpleGrid, Flex, Grid, Button, Divider } from "@chakra-ui/core";
+import {
+  Box,
+  SimpleGrid,
+  Flex,
+  Grid,
+  Button,
+  Divider,
+  IconButton,
+} from "@chakra-ui/core";
 import { NavBar } from "../components/nav-bar/NavBar";
 import { Footer } from "../components/Footer";
 import { CustomButton } from "../util/CustomButton";
@@ -89,11 +97,19 @@ export default function Home() {
     }
   }, [state.trainingDataFaiureOrSuccessOption]);
 
-  useEffect(() => {
-    if (state) {
-      // console.log(state);
+  const incrementQuestion = () => {
+    console.log(state);
+    if (state.trainingDataPointer != undefined && state.trainingData) {
+      let pointer: number = state.trainingDataPointer;
+      pointer = pointer + 1;
+
+      if (pointer < state.trainingData.length) {
+        dispatch({ type: "TrainingDataPointer", result: pointer });
+      } else {
+        // fetch data from server and delete data in cache
+      }
     }
-  });
+  };
 
   return (
     <PipelineReducerContext.Provider value={dispatch}>
@@ -111,7 +127,7 @@ export default function Home() {
           >
             dd
           </Box>
-          <Flex
+          <Grid
             height="100vh"
             w="full"
             bg="#303a4e"
@@ -120,7 +136,8 @@ export default function Home() {
             p={4}
             color="white"
             boxShadow="5px 5px 10px rgba(0,0,0,0.5)"
-            justify="center"
+            justifyContent="center"
+            alignContent="space-between"
           >
             <Grid
               gridTemplateColumns="800px"
@@ -130,7 +147,28 @@ export default function Home() {
               <PipelineValues />
               <Sentence />
             </Grid>
-          </Flex>
+            <Grid
+              mb={"100px"}
+              templateColumns="100px 100px"
+              templateRows="100px"
+              justifyContent="center"
+              gridColumnGap="100px"
+            >
+              <IconButton
+                variantColor="green"
+                aria-label="Call Segun"
+                size="lg"
+                icon="check"
+                onClick={() => incrementQuestion()}
+              />
+              <IconButton
+                variantColor="red"
+                aria-label="Call Segun"
+                size="lg"
+                icon="close"
+              />
+            </Grid>
+          </Grid>
         </Grid>
       </PipelineStateContext.Provider>
     </PipelineReducerContext.Provider>

@@ -76,6 +76,5 @@ export const GetTokenFeatureFromPipeline = (
   } else if (state.selectedPipeline === "POS") {
     tokenValue = token.tag;
   }
-  console.log(tokenValue);
   return tokenValue;
 };
