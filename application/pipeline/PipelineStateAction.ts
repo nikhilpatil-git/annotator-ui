@@ -1,6 +1,7 @@
 import {
   FailureOrPipeline,
   TrainingDataOrFailure,
+  TrainingDataFailureOrUnit,
 } from "../../domain/core/types";
 import { PipelineFailure } from "../../domain/pipeline/PipelineFailure";
 import { Pipeline } from "../../domain/pipeline/Pipeline";
@@ -14,7 +15,8 @@ export type PipelineState = {
   selectedPipeline?: string;
   selectedPipelineValue?: string;
   pipelineFailureOrSuccessOption?: PipelineFailure<Error>;
-  trainingDataFaiureOrSuccessOption?: TrainingDataFailure<Error>;
+  trainingDataFailureOrSuccessOption?: TrainingDataFailure<Error>;
+  savingTrainingDataFailureOrSuccessOption?: TrainingDataFailure<Error>;
 };
 
 export const InitialPipelineState: PipelineState = {};
@@ -35,6 +37,10 @@ export type PipelineAction =
   | {
       type: "UpdateTrainingDataFromCache";
       result: TrainingDataOrFailure;
+    }
+  | {
+      type: "SavingTrainingDataFailed";
+      result: TrainingDataFailureOrUnit;
     }
   | {
       type: "UpdateTrainingData";

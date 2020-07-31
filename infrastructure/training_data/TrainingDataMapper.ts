@@ -5,7 +5,7 @@ export const DocumentDataToTrainingData = (
   documentData: firestore.DocumentData
 ): TrainingData => {
   return new TrainingData(
-    "",
+    documentData["id"],
     documentData["state"],
     documentData["category"],
     documentData["sentiment"],

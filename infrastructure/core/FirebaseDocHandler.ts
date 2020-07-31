@@ -10,6 +10,12 @@ export class FirebaseDocHandler {
     this.firebaseClient = new FirebaseClient();
   }
 
+  getCollectionReference(
+    pathToCollection: string
+  ): firestore.CollectionReference {
+    return this.firebaseClient.firestore.collection(pathToCollection);
+  }
+
   async getCollection(
     pathToCollection: string
   ): Promise<firestore.DocumentData[]> {

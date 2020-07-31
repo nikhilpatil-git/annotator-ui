@@ -4,7 +4,10 @@ import { Unit } from "./unit";
 import { Option } from "fp-ts/lib/Option";
 import { User } from "../auth/user";
 import { Pipeline } from "../pipeline/Pipeline";
-import { TrainingDataFailure } from "../training_data/TrainingDataFailure";
+import {
+  TrainingDataFailure,
+  TrainingDataError,
+} from "../training_data/TrainingDataFailure";
 import { TrainingData } from "../training_data/TrainingData";
 
 export type OptionFailureOrUnit = Option<Either<AuthFailure<Error>, Unit>>;
@@ -14,6 +17,11 @@ export type FailureOrPipeline = Either<AuthFailure<Error>, Pipeline[]>;
 
 export type TrainingDataPromise = Promise<
   Either<TrainingDataFailure<Error>, TrainingData[]>
+>;
+
+export type TrainingDataFailureOrUnit = Either<
+  TrainingDataFailure<TrainingDataError>,
+  Unit
 >;
 
 export type TrainingDataOrFailure = Either<

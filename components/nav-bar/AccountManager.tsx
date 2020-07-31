@@ -2,9 +2,9 @@ import { Grid, Text, Box, Image, Icon, Link } from "@chakra-ui/core";
 import { AccountMangerPopup } from "./AccountMangerPopup";
 import React, { useContext, useEffect } from "react";
 import { AuthState, AuthAction } from "../../application/auth/AuthStateAction";
-import { AuthStateContext, AuthReducerContext } from "./LoginStateManger";
 import { FirebaseClient } from "../../infrastructure/core/FirebaseClient";
 import { FirebaseAuthFacade } from "../../infrastructure/auth/firebaseAuthFacade";
+import { AuthStateContext, AuthReducerContext } from "../Layout";
 
 export const AccountManger = () => {
   const state: AuthState = useContext(AuthStateContext);

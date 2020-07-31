@@ -7,6 +7,13 @@ import {
   Button,
   Divider,
   IconButton,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
 } from "@chakra-ui/core";
 import { NavBar } from "../components/nav-bar/NavBar";
 import { Footer } from "../components/Footer";
@@ -14,7 +21,7 @@ import { CustomButton } from "../util/CustomButton";
 import { Icon } from "@chakra-ui/core";
 import { Pipelines } from "../components/home/Pipeline";
 import { Sentence } from "../components/home/Sentence";
-import { useEffect, useReducer, Reducer } from "react";
+import { useEffect, useReducer, Reducer, useContext } from "react";
 import { FirebaseClient } from "../infrastructure/core/FirebaseClient";
 import { FirebaseDocHandler } from "../infrastructure/core/FirebaseDocHandler";
 import { FirebasePipelineFacade } from "../infrastructure/pipeline/FirebasePipelineFacade";
@@ -28,7 +35,10 @@ import {
   PipelineAction,
 } from "../application/pipeline/PipelineStateAction";
 import { AuthReducer } from "../application/auth/AuthReducer";
-import { InitialAuthState } from "../application/auth/AuthStateAction";
+import {
+  InitialAuthState,
+  AuthState,
+} from "../application/auth/AuthStateAction";
 import { PipelineReducer } from "../application/pipeline/PipelineReducer";
 import { PipelineValues } from "../components/home/PipelineValues";
 import { FirebaseTrainingDataFacade } from "../infrastructure/training_data/FirebaseTrainingDataFacade";
@@ -39,6 +49,10 @@ import { Pipeline } from "../domain/pipeline/Pipeline";
 import { TrainingDataFailure } from "../domain/training_data/TrainingDataFailure";
 import { TrainingData } from "../domain/training_data/TrainingData";
 import { TrainingDataOrFailure } from "../domain/core/types";
+import { AuthStateContext } from "../components/Layout";
+import { AnnotatorProgress } from "../components/home/AnnotatorProgress";
+import { PipelineManager } from "../components/home/PipelineManager";
+import { ErrorModal } from "../components/core/ErrorModal";
 
 export const PipelineStateContext: Context<PipelineState> = createContext(
   InitialPipelineState
@@ -62,6 +76,8 @@ const Words = () => {
 export default function Home() {
   const primaryColor = "primary.green";
 
+  const authState: AuthState = useContext(AuthStateContext);
+
   const [state, dispatch] = useReducer<Reducer<PipelineState, PipelineAction>>(
     PipelineReducer,
     InitialPipelineState
@@ -84,100 +100,106 @@ export default function Home() {
     })();
   }, []);
 
+  const fetchFromServer = async () => {
+    const firebaseTrainingDataFacade = new FirebaseTrainingDataFacade();
+    const successOrFailure = await firebaseTrainingDataFacade.getULabelledData();
+    dispatch({
+      type: "UpdateTrainingDataFromCache",
+      result: successOrFailure,
+    });
+  };
+
   useEffect(() => {
-    if (state.trainingDataFaiureOrSuccessOption) {
+    if (state.trainingDataFailureOrSuccessOption) {
       (async () => {
-        const firebaseTrainingDataFacade = new FirebaseTrainingDataFacade();
-        const successOrFailure = await firebaseTrainingDataFacade.getULabelledData();
-        dispatch({
-          type: "UpdateTrainingDataFromCache",
-          result: successOrFailure,
-        });
+        await fetchFromServer();
       })();
     }
-  }, [state.trainingDataFaiureOrSuccessOption]);
+  }, [state.trainingDataFailureOrSuccessOption]);
 
-  const incrementQuestion = () => {
-    console.log(state);
+  useEffect(() => {
+    if (authState) {
+      console.log(authState);
+    }
+  }, [authState]);
+
+  const incrementQuestion = async () => {
     if (state.trainingDataPointer != undefined && state.trainingData) {
       let pointer: number = state.trainingDataPointer;
       pointer = pointer + 1;
 
       if (pointer < state.trainingData.length) {
         dispatch({ type: "TrainingDataPointer", result: pointer });
+        if (localStorage.getItem("dataPointer")) {
+          localStorage.setItem("dataPointer", pointer.toString());
+        }
       } else {
+        console.log("save data");
+        // Save the data
+        // const firebaseTrainingDataFacade = new FirebaseTrainingDataFacade();
+        // const result = await firebaseTrainingDataFacade.saveTrainingData(
+        //   state.trainingData
+        // );
+
+        // dispatch({
+        //   type: "SavingTrainingDataFailed",
+        //   result: result,
+        // });
+
         // fetch data from server and delete data in cache
+        // if (
+        //   localStorage.getItem("data") &&
+        //   localStorage.getItem("dataPointer")
+        // ) {
+        //   localStorage.removeItem("data");
+        //   localStorage.setItem("dataPointer", "0");
+        //   await fetchFromServer();
+        // }
       }
     }
+  };
+
+  const IsUserLoggedIn = () => {
+    if (authState.isAuthenticated == true) {
+      return (
+        <Grid templateColumns="14% 86%" m={2}>
+          <AnnotatorProgress />
+          <PipelineManager />
+        </Grid>
+      );
+    }
+
+    return (
+      <Modal isOpen={true}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>User Not Logged In</ModalBody>
+          <ModalFooter>
+            <Button variantColor="blue" mr={3}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    );
   };
 
   return (
     <PipelineReducerContext.Provider value={dispatch}>
       <PipelineStateContext.Provider value={state}>
-        <Grid templateColumns="14% 86%" m={2}>
-          <Box
-            height="100vh"
-            bg="#303a4e"
-            borderRadius={2}
-            overflow="hidden"
-            p={4}
-            color="white"
-            boxShadow="5px 5px 10px rgba(0,0,0,0.5)"
-            mr={2}
-          >
-            dd
-          </Box>
-          <Grid
-            height="100vh"
-            w="full"
-            bg="#303a4e"
-            borderRadius={2}
-            overflow="hidden"
-            p={4}
-            color="white"
-            boxShadow="5px 5px 10px rgba(0,0,0,0.5)"
-            justifyContent="center"
-            alignContent="space-between"
-          >
-            <Grid
-              gridTemplateColumns="800px"
-              gridTemplateRows="fit-content(100px) fit-content(300px) fit-content(400px)"
-            >
-              <Pipelines />
-              <PipelineValues />
-              <Sentence />
-            </Grid>
-            <Grid
-              mb={"100px"}
-              templateColumns="100px 100px"
-              templateRows="100px"
-              justifyContent="center"
-              gridColumnGap="100px"
-            >
-              <IconButton
-                variantColor="green"
-                aria-label="Call Segun"
-                size="lg"
-                icon="check"
-                onClick={() => incrementQuestion()}
-              />
-              <IconButton
-                variantColor="red"
-                aria-label="Call Segun"
-                size="lg"
-                icon="close"
-              />
-            </Grid>
+        {authState.isAuthenticated == true ? (
+          <Grid templateColumns="14% 86%" m={2}>
+            <AnnotatorProgress />
+            <PipelineManager />
           </Grid>
-        </Grid>
+        ) : (
+          <ErrorModal
+            errorMessage={"User is not logged in please press Login"}
+          />
+        )}
       </PipelineStateContext.Provider>
     </PipelineReducerContext.Provider>
   );
-}
-
-{
-  /* <CustomButton isSolid={false}>LEMMA</CustomButton>
-<CustomButton isSolid={false}>NER</CustomButton>
-<CustomButton isSolid={false}>Sentiments</CustomButton>
-<CustomButton isSolid={false}>Category</CustomButton> */
 }

@@ -13,23 +13,13 @@ import {
   Link,
 } from "@chakra-ui/core";
 
-import {
-  LoginWithGoogle,
-  LoginWithFacebook,
-  LoginWithGithub,
-} from "./SocialButtons";
-import { useReducer, useEffect, Reducer, useContext } from "react";
-import { AuthReducer } from "../../application/auth/AuthReducer";
-import {
-  AuthState,
-  AuthAction,
-  InitialAuthState,
-} from "../../application/auth/AuthStateAction";
+import { LoginWithGoogle } from "./SocialButtons";
+import { useContext } from "react";
+import { AuthState, AuthAction } from "../../application/auth/AuthStateAction";
 import React from "react";
 import { FirebaseClient } from "../../infrastructure/core/FirebaseClient";
 import { FirebaseAuthFacade } from "../../infrastructure/auth/firebaseAuthFacade";
-import { AuthStateContext, AuthReducerContext } from "./LoginStateManger";
-import { AuthFailure } from "../../domain/auth/authFailure";
+import { AuthReducerContext } from "../Layout";
 
 export const LoginModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,7 +27,6 @@ export const LoginModal = () => {
   const primaryColor = "primary.green";
   const primaryLightColor = "primary.lightGreen";
 
-  const state: AuthState = useContext(AuthStateContext);
   const dispatch: React.Dispatch<AuthAction> = useContext(AuthReducerContext);
 
   const handleSignIn = async () => {

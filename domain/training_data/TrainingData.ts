@@ -39,20 +39,20 @@ export class Tokens {
 }
 
 export class TrainingData {
-  documentId: string;
+  id: string;
   state: string;
   category: string;
   sentiment: string;
   text: Text;
 
   constructor(
-    documentId: string,
+    id: string,
     state: string,
     category: string,
     sentiment: string,
     text: Text
   ) {
-    this.documentId = documentId;
+    this.id = id;
     this.state = state;
     this.category = category;
     this.sentiment = sentiment;

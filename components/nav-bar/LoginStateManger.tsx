@@ -1,32 +1,29 @@
-import { Context } from "react";
+import { useContext } from "react";
 import { AccountManger } from "./AccountManager";
 import { LoginModal } from "./LoginModal";
-import { useToast } from "@chakra-ui/core";
 
-import { createContext } from "react";
-import {
-  InitialAuthState,
-  AuthState,
-  AuthAction,
-} from "../../application/auth/AuthStateAction";
+import { AuthState, AuthAction } from "../../application/auth/AuthStateAction";
 
-import { useReducer, useEffect, Reducer } from "react";
-import { AuthReducer } from "../../application/auth/AuthReducer";
+import { useEffect } from "react";
 import { FirebaseClient } from "../../infrastructure/core/FirebaseClient";
 import { FirebaseAuthFacade } from "../../infrastructure/auth/firebaseAuthFacade";
+import { AuthStateContext, AuthReducerContext } from "../Layout";
 
-export const AuthStateContext: Context<AuthState> = createContext(
-  InitialAuthState
-);
-export const AuthReducerContext = createContext(
-  (() => 0) as React.Dispatch<AuthAction>
-);
+// export const AuthStateContext: Context<AuthState> = createContext(
+//   InitialAuthState
+// );
+// export const AuthReducerContext = createContext(
+//   (() => 0) as React.Dispatch<AuthAction>
+// );
 
 export const LoginStateManger = () => {
-  const [state, dispatch] = useReducer<Reducer<AuthState, AuthAction>>(
-    AuthReducer,
-    InitialAuthState
-  );
+  // const [state, dispatch] = useReducer<Reducer<AuthState, AuthAction>>(
+  //   AuthReducer,
+  //   InitialAuthState
+  // );
+
+  const state: AuthState = useContext(AuthStateContext);
+  const dispatch: React.Dispatch<AuthAction> = useContext(AuthReducerContext);
 
   // Fetch the current user
   useEffect(() => {
@@ -65,17 +62,5 @@ export const LoginStateManger = () => {
     return null;
   };
 
-  const CheckLoginError = () => {
-    if (state.authFailureOrSuccessOption !== undefined) {
-    }
-    return null;
-  };
-
-  return (
-    <AuthReducerContext.Provider value={dispatch}>
-      <AuthStateContext.Provider value={state}>
-        <CheckStatus />
-      </AuthStateContext.Provider>
-    </AuthReducerContext.Provider>
-  );
+  return <CheckStatus />;
 };

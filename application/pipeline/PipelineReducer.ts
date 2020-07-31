@@ -4,8 +4,12 @@ import { Reducer } from "react";
 import { PipelineFailure } from "../../domain/pipeline/PipelineFailure";
 import { Pipeline } from "../../domain/pipeline/Pipeline";
 import { pipe } from "fp-ts/lib/function";
-import { TrainingDataFailure } from "../../domain/training_data/TrainingDataFailure";
+import {
+  TrainingDataFailure,
+  TrainingDataError,
+} from "../../domain/training_data/TrainingDataFailure";
 import { TrainingData } from "../../domain/training_data/TrainingData";
+import { Unit } from "../../domain/core/unit";
 
 export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
   pipelineState: PipelineState,
@@ -35,7 +39,7 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
           pipelineAction.result,
           fold(
             (error: TrainingDataFailure<Error>) => {
-              newState.trainingDataFaiureOrSuccessOption = error;
+              newState.trainingDataFailureOrSuccessOption = error;
             },
             (trainingData: TrainingData[]) => {
               newState.trainingData = trainingData;
@@ -53,6 +57,17 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
         newState.trainingData = pipelineAction.result;
         localStorage.setItem("data", JSON.stringify(pipelineAction.result));
       }
+      return newState;
+    case "SavingTrainingDataFailed":
+      pipe(
+        pipelineAction.result,
+        fold(
+          (error: TrainingDataFailure<TrainingDataError>) => {
+            newState.savingTrainingDataFailureOrSuccessOption = error;
+          },
+          (_unit: Unit) => {}
+        )
+      );
       return newState;
     case "TrainingDataPointer":
       newState.trainingDataPointer = pipelineAction.result;
