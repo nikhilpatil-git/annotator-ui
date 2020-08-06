@@ -60,8 +60,14 @@ export default function Home() {
 
   useEffect(() => {
     if (state.trainingDataFailureOrSuccessOption) {
+      console.log("fuckedup");
       (async () => {
-        await fetchFromServer();
+        const firebaseTrainingDataFacade = new FirebaseTrainingDataFacade();
+        const successOrFailure = await firebaseTrainingDataFacade.getULabelledData();
+        dispatch({
+          type: "UpdateTrainingDataFromCache",
+          result: successOrFailure,
+        });
       })();
     }
   }, [state.trainingDataFailureOrSuccessOption]);
@@ -75,7 +81,7 @@ export default function Home() {
   useEffect(() => {
     window.setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 200);
   }, []);
 
   const MakeChoice = () => {

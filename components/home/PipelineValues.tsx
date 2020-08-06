@@ -1,4 +1,4 @@
-import { SimpleGrid } from "@chakra-ui/core";
+import { SimpleGrid, Box, Skeleton } from "@chakra-ui/core";
 import { CustomButton } from "../../util/CustomButton";
 import {
   PipelineState,
@@ -57,15 +57,19 @@ export const PipelineValues = () => {
   });
 
   return (
-    <SimpleGrid
-      gridColumnGap={2}
-      gridRowGap={1}
-      gridTemplateColumns={"repeat(auto-fit, 100px)"}
-      gridTemplateRows={"40px"}
-      bg="secondry.purple"
-      p={3}
-    >
-      {pipelineValuesList}
-    </SimpleGrid>
+    <Box>
+      <Skeleton isLoaded={state.pipelines !== undefined}>
+        <SimpleGrid
+          gridColumnGap={2}
+          gridRowGap={1}
+          gridTemplateColumns={"repeat(auto-fit, 100px)"}
+          gridTemplateRows={"40px"}
+          bg="secondry.purple"
+          p={3}
+        >
+          {pipelineValuesList}
+        </SimpleGrid>
+      </Skeleton>
+    </Box>
   );
 };

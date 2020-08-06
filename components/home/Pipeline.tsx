@@ -1,4 +1,4 @@
-import { Button, Icon, SimpleGrid } from "@chakra-ui/core";
+import { Button, Icon, SimpleGrid, Skeleton, Box } from "@chakra-ui/core";
 import {
   PipelineState,
   PipelineAction,
@@ -75,32 +75,22 @@ export const Pipelines = () => {
   );
 
   return (
-    <SimpleGrid
-      gridTemplateColumns={"repeat(auto-fit, 140px)"}
-      gridTemplateRows={"50px"}
-      bg="#343c4b"
-      boxShadow="5px 5px 10px rgba(0,0,0,0.5)"
-      borderRadius={4}
-      mb={2}
-      p={1}
-      justifyContent="center"
-      alignItems="center"
-    >
-      {pipelinesList}
-    </SimpleGrid>
+    <Box>
+      <Skeleton isLoaded={state.pipelines !== undefined}>
+        <SimpleGrid
+          gridTemplateColumns={"repeat(auto-fit, 140px)"}
+          gridTemplateRows={"50px"}
+          bg="#343c4b"
+          boxShadow="5px 5px 10px rgba(0,0,0,0.5)"
+          borderRadius={4}
+          mb={2}
+          p={1}
+          justifyContent="center"
+          alignItems="center"
+        >
+          {pipelinesList}
+        </SimpleGrid>
+      </Skeleton>
+    </Box>
   );
 };
-
-/*
-      <Button
-        onClick={() => {
-          dispatch({ type: "SelectPipeline", result: props.pipeline.name });
-        }}
-        w={"100%"}
-        variantColor="gray"
-        variant="solid"
-      >
-        {props.pipeline.name}
-      </Button>;
-
-*/

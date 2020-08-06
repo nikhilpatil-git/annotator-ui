@@ -1,4 +1,12 @@
-import { Flex, Tag, TagLabel, TagCloseButton, theme } from "@chakra-ui/core";
+import {
+  Flex,
+  Tag,
+  TagLabel,
+  TagCloseButton,
+  theme,
+  Skeleton,
+  Box,
+} from "@chakra-ui/core";
 import { useEffect, useState, useContext } from "react";
 import {
   PipelineState,
@@ -86,15 +94,18 @@ export const Sentence = () => {
   );
 
   return (
-    <Flex
-      align="center"
-      direction={"row"}
-      wrap={"wrap"}
-      bg="white"
-      color="black"
-      p={4}
-    >
-      {wordsList}
-    </Flex>
+    <Box>
+      {/* <Skeleton isLoaded={state.trainingData !== undefined}></Skeleton> */}
+      <Flex
+        align="center"
+        direction={"row"}
+        wrap={"wrap"}
+        bg="white"
+        color="black"
+        p={4}
+      >
+        {wordsList}
+      </Flex>
+    </Box>
   );
 };

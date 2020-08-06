@@ -28,6 +28,7 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
             (pipelines: Pipeline[]) => {
               newState.pipelines = pipelines;
               newState.selectedPipeline = "LANG";
+              newState.pipelineFailureOrSuccessOption = undefined;
             }
           )
         );
@@ -47,6 +48,7 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
               if (pointer) {
                 newState.trainingDataPointer = parseInt(pointer);
               }
+              newState.trainingDataFailureOrSuccessOption = undefined;
             }
           )
         );

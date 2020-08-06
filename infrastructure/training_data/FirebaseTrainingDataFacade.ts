@@ -84,8 +84,9 @@ export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
     if (typeof Storage !== "undefined") {
       localStorage.setItem("data", JSON.stringify(trainingData));
       localStorage.setItem("dataPointer", "0");
+    } else {
+      throw new Error("Data could not be saved in the catch");
     }
-    throw new Error("Data could not be saved in the catch");
   }
 
   async getULabelledData(): TrainingDataPromise {
