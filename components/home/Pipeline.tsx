@@ -49,11 +49,13 @@ export const Pipelines = () => {
   );
 
   useEffect(() => {
-    (async () => {
-      const firebasePipelineFacade = new FirebasePipelineFacade();
-      const failureOrSuccess = await firebasePipelineFacade.getPipelines();
-      dispatch({ type: "GetPipeline", result: failureOrSuccess });
-    })();
+    if (state.pipelines == undefined) {
+      (async () => {
+        const firebasePipelineFacade = new FirebasePipelineFacade();
+        const failureOrSuccess = await firebasePipelineFacade.getPipelines();
+        dispatch({ type: "GetPipeline", result: failureOrSuccess });
+      })();
+    }
   }, []);
 
   const pipelinesList = state.pipelines?.map(

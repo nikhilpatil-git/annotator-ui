@@ -7,23 +7,23 @@ import {
 import { FirebaseDocHandler } from "../core/FirebaseDocHandler";
 import { firestore } from "firebase";
 import { DocumentDataToTrainingData } from "./TrainingDataMapper";
-import { right, left, Either } from "fp-ts/lib/Either";
+import { right, left } from "fp-ts/lib/Either";
 import {
   ULabelledDataNotFound,
-  TrainingDataFailure,
   ULabelledDataFromCatcheNotFound,
-  TrainingDataError,
   ULabelledDataSaveFailed,
 } from "../../domain/training_data/TrainingDataFailure";
 import { TrainingData } from "../../domain/training_data/TrainingData";
-import { rejects } from "assert";
-import { Unit, unit } from "../../domain/core/unit";
+import { unit } from "../../domain/core/unit";
 
 export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
   private firebaseDocHandler: FirebaseDocHandler;
   constructor() {
     this.firebaseDocHandler = new FirebaseDocHandler();
   }
+
+  async changeTrainingDataState(trainingData: TrainingData[]) {}
+
   async saveTrainingData(
     trainingData: TrainingData[]
   ): Promise<TrainingDataFailureOrUnit> {
@@ -31,11 +31,18 @@ export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
       const collectionRef: firestore.CollectionReference = this.firebaseDocHandler.getCollectionReference(
         "data/twitter/tweets"
       );
-
       trainingData.forEach(async (trainingData: TrainingData) => {
         await collectionRef
           .doc(trainingData.id.toString())
-          .set(trainingData, { merge: true })
+          .set(
+            {
+              state: "updated",
+              text: trainingData.text,
+              category: trainingData.category,
+              sentiment: trainingData.sentiment,
+            },
+            { merge: true }
+          )
           .then(() => resolve(right(unit)))
           .catch((error) =>
             reject(left(ULabelledDataSaveFailed.instance(error)))
@@ -43,7 +50,7 @@ export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
       });
     });
   }
-  getULabelledDataFromCache(): TrainingDataPromise {
+  async getULabelledDataFromCache(): TrainingDataPromise {
     return new Promise<TrainingDataOrFailure>((resolve, reject) => {
       if (typeof Storage !== "undefined") {
         const cacheData = localStorage.getItem("data");
@@ -57,8 +64,35 @@ export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
     });
   }
 
+  async getULabelledDataFromServer(): Promise<TrainingData[]> {
+    return await this.firebaseDocHandler
+      .getCollectionWithQueryLimit(
+        "data/twitter/tweets",
+        JSON.stringify({
+          key: "state",
+          operater: "==",
+          value: "not-updated",
+        }),
+        2
+      )
+      .then((result: firestore.DocumentData[]) => {
+        return result.map((doc) => DocumentDataToTrainingData(doc));
+      });
+  }
+
+  saveDataInCatch(trainingData: TrainingData[]) {
+    if (typeof Storage !== "undefined") {
+      localStorage.setItem("data", JSON.stringify(trainingData));
+      localStorage.setItem("dataPointer", "0");
+    }
+    throw new Error("Data could not be saved in the catch");
+  }
+
   async getULabelledData(): TrainingDataPromise {
     try {
+      const dataFromServer: TrainingData[] = await this.getULabelledDataFromServer();
+      this.saveDataInCatch(dataFromServer);
+
       return await this.firebaseDocHandler
         .getCollectionWithQueryLimit(
           "data/twitter/tweets",
@@ -70,20 +104,14 @@ export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
           2
         )
         .then((result: firestore.DocumentData[]) => {
-          console.log(result);
           if (typeof Storage !== "undefined") {
             const trainingData = result.map((doc) =>
               DocumentDataToTrainingData(doc)
             );
             localStorage.setItem("data", JSON.stringify(trainingData));
             localStorage.setItem("dataPointer", "0");
-            const cacheData = localStorage.getItem("data");
-            if (cacheData !== null) {
-              const trainingDataPipeline: TrainingData[] = [];
-              Object.assign(trainingDataPipeline, JSON.parse(cacheData));
-              console.log(trainingDataPipeline);
-            }
           }
+
           return result;
         })
         .then((result: firestore.DocumentData[]) =>

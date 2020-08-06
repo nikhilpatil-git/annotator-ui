@@ -27,7 +27,7 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
             },
             (pipelines: Pipeline[]) => {
               newState.pipelines = pipelines;
-              newState.selectedPipeline = "NER";
+              newState.selectedPipeline = "LANG";
             }
           )
         );

@@ -1,4 +1,4 @@
-import { SimpleGrid, Tooltip } from "@chakra-ui/core";
+import { SimpleGrid } from "@chakra-ui/core";
 import { CustomButton } from "../../util/CustomButton";
 import {
   PipelineState,
@@ -6,7 +6,6 @@ import {
 } from "../../application/pipeline/PipelineStateAction";
 import { useContext, useEffect } from "react";
 import { PipelineStateContext, PipelineReducerContext } from "../../pages";
-import { stat } from "fs/promises";
 import { Pipeline } from "../../domain/pipeline/Pipeline";
 
 export const PipelineValues = () => {
