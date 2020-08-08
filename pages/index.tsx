@@ -73,10 +73,12 @@ export default function Home() {
   }, [state.trainingDataFailureOrSuccessOption]);
 
   useEffect(() => {
-    if (authState) {
-      console.log(authState);
+    console.log(state);
+    if (typeof Storage !== "undefined") {
+      const trainingData = state.trainingData;
+      //localStorage.setItem("data", JSON.stringify(trainingData));
     }
-  }, [authState]);
+  }, [state]);
 
   useEffect(() => {
     window.setTimeout(() => {

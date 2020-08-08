@@ -20,7 +20,10 @@ import {
   UpdateTokenLinguisticFeature,
   RemoveTokenLinguisticFeature,
   GetTokenFeatureFromPipeline,
+  UpdateLangaugeCategory,
+  UpdateSentiment,
 } from "./SentenceHelper";
+import { DoesPipelineValueMatchPipeline } from "./HomeHelper";
 
 interface IWordsListProps {
   words: string[];
@@ -39,11 +42,13 @@ export const Sentence = () => {
   };
 
   const handleFocus = (index: number) => {
-    UpdateTokenLinguisticFeature(index, state);
-    updateTrainingData();
-    let selection = window.getSelection();
-    if (selection) {
-      selection.removeAllRanges();
+    if (DoesPipelineValueMatchPipeline(state)) {
+      UpdateTokenLinguisticFeature(index, state);
+      updateTrainingData();
+      let selection = window.getSelection();
+      if (selection) {
+        selection.removeAllRanges();
+      }
     }
   };
 
@@ -81,7 +86,6 @@ export const Sentence = () => {
                 }}
                 outline={0}
                 onClick={() => {
-                  console.log("close text");
                   RemoveTokenLinguisticFeature(index, state);
                   updateTrainingData();
                 }}
@@ -95,17 +99,18 @@ export const Sentence = () => {
 
   return (
     <Box>
-      {/* <Skeleton isLoaded={state.trainingData !== undefined}></Skeleton> */}
-      <Flex
-        align="center"
-        direction={"row"}
-        wrap={"wrap"}
-        bg="white"
-        color="black"
-        p={4}
-      >
-        {wordsList}
-      </Flex>
+      <Skeleton isLoaded={state.trainingData !== undefined}>
+        <Flex
+          align="center"
+          direction={"row"}
+          wrap={"wrap"}
+          bg="white"
+          color="black"
+          p={4}
+        >
+          {wordsList}
+        </Flex>
+      </Skeleton>
     </Box>
   );
 };

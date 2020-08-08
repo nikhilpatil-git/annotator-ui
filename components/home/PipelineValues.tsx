@@ -4,9 +4,18 @@ import {
   PipelineState,
   PipelineAction,
 } from "../../application/pipeline/PipelineStateAction";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PipelineStateContext, PipelineReducerContext } from "../../pages";
 import { Pipeline } from "../../domain/pipeline/Pipeline";
+import {
+  SelectDefaultPipelineValue,
+  StoreSelectedPipelineValue,
+  GetDefaultPipelineValue,
+} from "./PipelineValuesHelper";
+import {
+  GetFirstNerPosPipelineValue,
+  DoesPipelineValueMatchPipeline,
+} from "./HomeHelper";
 
 export const PipelineValues = () => {
   const state: PipelineState = useContext(PipelineStateContext);
@@ -14,22 +23,17 @@ export const PipelineValues = () => {
     PipelineReducerContext
   );
 
+  const [defaultValue, setDefaultValue] = useState<string>();
+
   useEffect(() => {
-    if (!state.selectedPipelineValue && state.selectedPipeline) {
-      state.pipelines?.map((item: Pipeline) => {
-        if (item.name === state.selectedPipeline) {
-          const mapValues = item.values;
-          const defaultPipelineValue = Array.from(mapValues).map(
-            ([key]) => key
-          )[0];
-          dispatch({
-            type: "SelectPipelineValue",
-            result: defaultPipelineValue,
-          });
-        }
-      });
+    let result = DoesPipelineValueMatchPipeline(state);
+    if (!result) {
+      let value = GetDefaultPipelineValue(state);
+      if (value) {
+        setDefaultValue(() => value);
+      }
     }
-  }, [state.selectedPipeline]);
+  }, []);
 
   const pipelineValuesList = state.pipelines?.map((item: Pipeline) => {
     if (item.name === state.selectedPipeline) {
@@ -43,10 +47,10 @@ export const PipelineValues = () => {
               key={index}
               colorLight="secondry.purpleLight"
               color="secondry.purple"
-              isSolid={state.selectedPipelineValue == item ? false : true}
+              isSolid={defaultValue == item ? false : true}
               title={titleValue}
               onClickCallback={() =>
-                dispatch({ type: "SelectPipelineValue", result: item })
+                StoreSelectedPipelineValue(item, state, dispatch)
               }
             >
               {item}
@@ -58,18 +62,18 @@ export const PipelineValues = () => {
 
   return (
     <Box>
-      <Skeleton isLoaded={state.pipelines !== undefined}>
-        <SimpleGrid
-          gridColumnGap={2}
-          gridRowGap={1}
-          gridTemplateColumns={"repeat(auto-fit, 100px)"}
-          gridTemplateRows={"40px"}
-          bg="secondry.purple"
-          p={3}
-        >
-          {pipelineValuesList}
-        </SimpleGrid>
-      </Skeleton>
+      {/* <Skeleton isLoaded={state.pipelines !== undefined}> */}
+      <SimpleGrid
+        gridColumnGap={2}
+        gridRowGap={1}
+        gridTemplateColumns={"repeat(auto-fit, 100px)"}
+        gridTemplateRows={"40px"}
+        bg="secondry.purple"
+        p={3}
+      >
+        {pipelineValuesList}
+      </SimpleGrid>
+      {/* </Skeleton> */}
     </Box>
   );
 };

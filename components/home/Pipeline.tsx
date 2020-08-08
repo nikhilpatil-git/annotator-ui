@@ -9,6 +9,7 @@ import { FirebasePipelineFacade } from "../../infrastructure/pipeline/FirebasePi
 import { Pipeline } from "../../domain/pipeline/Pipeline";
 import { stat } from "fs/promises";
 import { CustomButton } from "../../util/CustomButton";
+import { SelectDefaultPipelineValue } from "./PipelineValuesHelper";
 
 interface IPipelineItemProps {
   pipeline: Pipeline;
@@ -30,9 +31,9 @@ const PipelineItem: React.FC<IPipelineItemProps> = ({ ...props }) => {
         colorLight="secondry.grayLight"
         color="secondry.gray"
         isSolid={state.selectedPipeline == props.pipeline.name ? false : true}
-        onClickCallback={() =>
-          dispatch({ type: "SelectPipeline", result: props.pipeline.name })
-        }
+        onClickCallback={() => {
+          dispatch({ type: "SelectPipeline", result: props.pipeline.name });
+        }}
       >
         {props.pipeline.name}
       </CustomButton>

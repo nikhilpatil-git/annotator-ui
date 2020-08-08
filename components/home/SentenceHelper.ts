@@ -22,11 +22,36 @@ export const GetTokenListFromPipelineState = (
   return tokensList;
 };
 
+export const UpdateLangaugeCategory = (state: PipelineState) => {
+  if (
+    state.trainingData &&
+    state.trainingDataPointer != undefined &&
+    state.selectedPipelineValue
+  ) {
+    state.trainingData[state.trainingDataPointer].category =
+      state.selectedPipelineValue;
+    state.selectedPipelineValue = undefined;
+  }
+};
+
+export const UpdateSentiment = (state: PipelineState) => {
+  if (
+    state.trainingData &&
+    state.trainingDataPointer != undefined &&
+    state.selectedPipelineValue
+  ) {
+    state.trainingData[state.trainingDataPointer].sentiment =
+      state.selectedPipelineValue;
+    state.selectedPipelineValue = undefined;
+  }
+};
+
 export const UpdateTokenLinguisticFeature = (
   tokenId: number,
   state: PipelineState
 ) => {
   if (state.trainingData && state.trainingDataPointer != undefined) {
+    state.trainingData[state.trainingDataPointer].category = "";
     state.trainingData[state.trainingDataPointer].text.sentences
       .map((sentence: Sentences) => sentence.tokens)
       .map((tokens: Tokens[]) => tokens)

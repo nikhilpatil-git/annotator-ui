@@ -14,6 +14,9 @@ export type PipelineState = {
   trainingDataPointer?: number;
   selectedPipeline?: string;
   selectedPipelineValue?: string;
+  nerPosPipelineValue?: string;
+  sentimentPipelineValue?: string;
+  categoryPipelineValue?: string;
   pipelineFailureOrSuccessOption?: PipelineFailure<Error>;
   trainingDataFailureOrSuccessOption?: TrainingDataFailure<Error>;
   savingTrainingDataFailureOrSuccessOption?: TrainingDataFailure<Error>;
@@ -35,6 +38,18 @@ export type PipelineAction =
       result: string;
     }
   | {
+      type: "NerPosPipelineValue";
+      result: string;
+    }
+  | {
+      type: "SentimentPipelineValue";
+      result: string;
+    }
+  | {
+      type: "CategoryPipelineValue";
+      result: string;
+    }
+  | {
       type: "UpdateTrainingDataFromCache";
       result: TrainingDataOrFailure;
     }
@@ -44,6 +59,10 @@ export type PipelineAction =
     }
   | {
       type: "UpdateTrainingData";
+      result: TrainingData[];
+    }
+  | {
+      type: "UpdateSentimentCategory";
       result: TrainingData[];
     }
   | {

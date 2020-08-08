@@ -78,11 +78,28 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
       return {
         ...pipelineState,
         selectedPipeline: pipelineAction.result,
-        selectedPipelineValue: "",
       };
     case "SelectPipelineValue":
       return {
         ...pipelineState,
+        selectedPipelineValue: pipelineAction.result,
+      };
+    case "SentimentPipelineValue":
+      return {
+        ...pipelineState,
+        sentimentPipelineValue: pipelineAction.result,
+        selectedPipelineValue: pipelineAction.result,
+      };
+    case "CategoryPipelineValue":
+      return {
+        ...pipelineState,
+        categoryPipelineValue: pipelineAction.result,
+        selectedPipelineValue: pipelineAction.result,
+      };
+    case "NerPosPipelineValue":
+      return {
+        ...pipelineState,
+        nerPosPipelineValue: pipelineAction.result,
         selectedPipelineValue: pipelineAction.result,
       };
     default:
