@@ -27,13 +27,19 @@ export const PipelineValues = () => {
 
   useEffect(() => {
     let result = DoesPipelineValueMatchPipeline(state);
-    if (!result) {
-      let value = GetDefaultPipelineValue(state);
+    let value = GetDefaultPipelineValue(state);
+    if (!result || defaultValue !== value) {
       if (value) {
         setDefaultValue(() => value);
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (defaultValue) {
+      console.log(defaultValue);
+    }
+  }, [defaultValue]);
 
   const pipelineValuesList = state.pipelines?.map((item: Pipeline) => {
     if (item.name === state.selectedPipeline) {
