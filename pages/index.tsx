@@ -16,6 +16,7 @@ import { AuthStateContext } from "../components/Layout";
 import { AnnotatorProgress } from "../components/home/AnnotatorProgress";
 import { PipelineManager } from "../components/home/PipelineManager";
 import { ErrorModal } from "../components/core/ErrorModal";
+import { FetchDataFromServer } from "../components/home/HomeHelper";
 
 export const PipelineStateContext: Context<PipelineState> = createContext(
   InitialPipelineState
@@ -34,33 +35,12 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      const firebaseTrainingDataFacade = new FirebaseTrainingDataFacade();
-      await firebaseTrainingDataFacade
-        .getULabelledDataFromCache()
-        .then((trainingData: TrainingDataOrFailure) => {
-          dispatch({
-            type: "UpdateTrainingDataFromCache",
-            result: trainingData,
-          });
-        })
-        .catch((error: TrainingDataOrFailure) =>
-          dispatch({ type: "UpdateTrainingDataFromCache", result: error })
-        );
+      await FetchDataFromServer(dispatch);
     })();
   }, []);
 
-  const fetchFromServer = async () => {
-    const firebaseTrainingDataFacade = new FirebaseTrainingDataFacade();
-    const successOrFailure = await firebaseTrainingDataFacade.getULabelledData();
-    dispatch({
-      type: "UpdateTrainingDataFromCache",
-      result: successOrFailure,
-    });
-  };
-
   useEffect(() => {
     if (state.trainingDataFailureOrSuccessOption) {
-      console.log("fuckedup");
       (async () => {
         const firebaseTrainingDataFacade = new FirebaseTrainingDataFacade();
         const successOrFailure = await firebaseTrainingDataFacade.getULabelledData();
@@ -76,7 +56,7 @@ export default function Home() {
     console.log(state);
     if (typeof Storage !== "undefined") {
       const trainingData = state.trainingData;
-      //localStorage.setItem("data", JSON.stringify(trainingData));
+      localStorage.setItem("data", JSON.stringify(trainingData));
     }
   }, [state]);
 

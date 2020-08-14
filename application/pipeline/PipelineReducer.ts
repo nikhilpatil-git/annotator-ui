@@ -10,6 +10,7 @@ import {
 } from "../../domain/training_data/TrainingDataFailure";
 import { TrainingData } from "../../domain/training_data/TrainingData";
 import { Unit } from "../../domain/core/unit";
+import { stringify } from "querystring";
 
 export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
   pipelineState: PipelineState,
@@ -60,6 +61,9 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
         localStorage.setItem("data", JSON.stringify(pipelineAction.result));
       }
       return newState;
+    case "ClearTrainingData":
+      newState.trainingData = undefined;
+      return newState;
     case "SavingTrainingDataFailed":
       pipe(
         pipelineAction.result,
@@ -72,6 +76,9 @@ export const PipelineReducer: Reducer<PipelineState, PipelineAction> = (
       );
       return newState;
     case "TrainingDataPointer":
+      if (typeof Storage !== "undefined") {
+        localStorage.setItem("dataPointer", pipelineAction.result.toString());
+      }
       newState.trainingDataPointer = pipelineAction.result;
       return newState;
     case "SelectPipeline":

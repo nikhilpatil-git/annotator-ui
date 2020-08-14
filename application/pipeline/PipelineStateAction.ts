@@ -62,6 +62,9 @@ export type PipelineAction =
       result: TrainingData[];
     }
   | {
+      type: "ClearTrainingData";
+    }
+  | {
       type: "UpdateSentimentCategory";
       result: TrainingData[];
     }

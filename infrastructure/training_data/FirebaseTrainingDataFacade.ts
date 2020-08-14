@@ -102,7 +102,7 @@ export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
             operater: "==",
             value: "not-updated",
           }),
-          2
+          3
         )
         .then((result: firestore.DocumentData[]) => {
           if (typeof Storage !== "undefined") {

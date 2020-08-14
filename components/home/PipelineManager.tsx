@@ -2,8 +2,23 @@ import { Grid, IconButton } from "@chakra-ui/core";
 import { Pipelines } from "./Pipeline";
 import { PipelineValues } from "./PipelineValues";
 import { Sentence } from "./Sentence";
+import {
+  PipelineState,
+  PipelineAction,
+} from "../../application/pipeline/PipelineStateAction";
+import { useContext } from "react";
+import { PipelineStateContext, PipelineReducerContext } from "../../pages";
+import {
+  CheckTrainingDataValidity,
+  SaveMoveToNextTrainingData,
+} from "./HomeHelper";
 
 export const PipelineManager = () => {
+  const state: PipelineState = useContext(PipelineStateContext);
+  const dispatch: React.Dispatch<PipelineAction> = useContext(
+    PipelineReducerContext
+  );
+
   return (
     <Grid
       height="100vh"
@@ -37,13 +52,23 @@ export const PipelineManager = () => {
           aria-label="Call Segun"
           size="lg"
           icon="check"
-          onClick={() => {}}
+          onClick={async () => {
+            let result = CheckTrainingDataValidity(state);
+            if (result) {
+              alert(result);
+            } else {
+              await SaveMoveToNextTrainingData(state, dispatch);
+            }
+          }}
         />
         <IconButton
           variantColor="red"
           aria-label="Call Segun"
           size="lg"
           icon="close"
+          onClick={async () => {
+            await SaveMoveToNextTrainingData(state, dispatch);
+          }}
         />
       </Grid>
     </Grid>

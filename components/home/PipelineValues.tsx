@@ -8,7 +8,6 @@ import { useContext, useEffect, useState } from "react";
 import { PipelineStateContext, PipelineReducerContext } from "../../pages";
 import { Pipeline } from "../../domain/pipeline/Pipeline";
 import {
-  SelectDefaultPipelineValue,
   StoreSelectedPipelineValue,
   GetDefaultPipelineValue,
 } from "./PipelineValuesHelper";
@@ -27,8 +26,10 @@ export const PipelineValues = () => {
 
   useEffect(() => {
     let result = DoesPipelineValueMatchPipeline(state);
-    let value = GetDefaultPipelineValue(state);
-    if (!result || defaultValue !== value) {
+    if (result) {
+      setDefaultValue(() => state?.selectedPipelineValue);
+    } else {
+      let value = GetDefaultPipelineValue(state);
       if (value) {
         setDefaultValue(() => value);
       }
