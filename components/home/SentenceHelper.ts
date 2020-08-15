@@ -12,12 +12,14 @@ export const GetTokenListFromPipelineState = (
 ): Tokens[] => {
   let tokensList: Tokens[] = [];
   if (state.trainingData && state.trainingDataPointer != undefined) {
-    state.trainingData[state.trainingDataPointer].text.sentences
-      .map((sentence: Sentences) => sentence.tokens)
-      .map((tokens: Tokens[]) => tokens)
-      .forEach((innerTokens: Tokens[]) =>
-        innerTokens.forEach((token: Tokens) => tokensList.push(token))
-      );
+    if (state.trainingData[state.trainingDataPointer]) {
+      state.trainingData[state.trainingDataPointer].text.sentences
+        .map((sentence: Sentences) => sentence.tokens)
+        .map((tokens: Tokens[]) => tokens)
+        .forEach((innerTokens: Tokens[]) =>
+          innerTokens.forEach((token: Tokens) => tokensList.push(token))
+        );
+    }
   }
   return tokensList;
 };

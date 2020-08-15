@@ -103,8 +103,6 @@ export const CheckTrainingDataValidity = (
     return "Please update the LANG";
   } else if (!state?.sentimentPipelineValue) {
     return "Please update the SENT";
-  } else if (!state?.nerPosPipelineValue) {
-    return "Please update the NER or POS";
   }
 };
 
@@ -137,7 +135,7 @@ export const IsTrainingDataPointerLast = (
   let trainingDataLength: number = state?.trainingData?.length
     ? state?.trainingData?.length
     : 0;
-  if (currentPointer < trainingDataLength - 1) {
+  if (currentPointer < trainingDataLength) {
     return false;
   }
   return true;

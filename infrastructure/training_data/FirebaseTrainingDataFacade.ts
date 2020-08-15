@@ -73,7 +73,7 @@ export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
           operater: "==",
           value: "not-updated",
         }),
-        2
+        3
       )
       .then((result: firestore.DocumentData[]) => {
         return result.map((doc) => DocumentDataToTrainingData(doc));
@@ -93,31 +93,7 @@ export class FirebaseTrainingDataFacade implements ITrainingDataFacade {
     try {
       const dataFromServer: TrainingData[] = await this.getULabelledDataFromServer();
       this.saveDataInCatch(dataFromServer);
-
-      return await this.firebaseDocHandler
-        .getCollectionWithQueryLimit(
-          "data/twitter/tweets",
-          JSON.stringify({
-            key: "state",
-            operater: "==",
-            value: "not-updated",
-          }),
-          3
-        )
-        .then((result: firestore.DocumentData[]) => {
-          if (typeof Storage !== "undefined") {
-            const trainingData = result.map((doc) =>
-              DocumentDataToTrainingData(doc)
-            );
-            localStorage.setItem("data", JSON.stringify(trainingData));
-            localStorage.setItem("dataPointer", "0");
-          }
-
-          return result;
-        })
-        .then((result: firestore.DocumentData[]) =>
-          right(result.map((doc) => DocumentDataToTrainingData(doc)))
-        );
+      return right(dataFromServer);
     } catch (error) {
       return left(ULabelledDataNotFound.instance(error));
     }
